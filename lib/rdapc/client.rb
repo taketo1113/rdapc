@@ -7,7 +7,7 @@ module Rdapc
       @type = type
       @query = query
 
-      @url = "https://rdap.arin.net/registry/ip/#{query}"
+      @url = get_url(@type, @query)
     end
 
     TYPES = [
@@ -18,6 +18,7 @@ module Rdapc
       :entity,
     ]
 
+    # validation
     def valid?
       unless valid_type?(@type)
         return false
@@ -48,6 +49,21 @@ module Rdapc
       end
 
       return true
+    end
+
+    def get_url(type, query)
+      # TODO: only arin endpoint
+      if type == :ip
+     "https://rdap.arin.net/registry/ip/#{query}"
+      elsif type == :domain
+        "https://rdap.arin.net/registry/domain/#{query}"
+      elsif type == :autnum
+        "https://rdap.arin.net/registry/autnum/#{query}"
+      elsif type == :entity
+        "https://rdap.arin.net/registry/entity/#{query}"
+      else
+        ''
+      end
     end
 
     def get
