@@ -3,10 +3,15 @@ require "rdapc/client"
 
 module Rdapc
   class << self
-    def lookup(query:)
-      hoge = Rdapc::Client.new(query: query)
+    def lookup(type:, query:)
+      client = Rdapc::Client.new(type: type, query: query)
 
-      hoge.get
+      unless client.valid?
+        # TODO: return Error Object
+        return
+      end
+
+      client.get
     end
   end
 end
